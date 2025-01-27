@@ -2,9 +2,9 @@ Program 1 and 2:
 Go to git bash page and download win set up
 Go to github and login – 
 Create a github repo
-Open git bash
 git config --global user.name "name"
 git config --global user.email "mail@gmail.com"
+Open git bash
 cd path/folder
 git clone <repo-url>
 cd <repo-folder>
@@ -220,4 +220,36 @@ Maven installation -> name:  maven-local , MAVEN_HOME: C:\Program Files\apache-m
 
 Create New Item -> name and pipeline
 Under Pipeline Script ********************************
-csave and build
+pipeline {
+    agent any
+    
+    environment{
+    JAVA_HOME = 'C:\\Program Files\\Java\\jdk-17'
+    }
+    
+    tools{ 
+        maven 'maven-local'
+    }
+
+    stages {
+        stage('Git') {
+            steps {
+                git url:'https://github.com/ravdy/hello-world.git'    
+            }
+        }
+        stage('build') {
+            steps {
+                bat "mvn clean install"
+            }
+        }
+        stage('Test') {
+            steps {
+                bat 'mvn test'
+            }
+        }
+    }
+}
+-------------------------------------------------------------
+save and build
+
+or (https://github.com/Sanchitk06/hello-world.git) for jdk 21
